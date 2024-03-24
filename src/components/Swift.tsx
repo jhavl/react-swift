@@ -199,6 +199,19 @@ const Swift: React.FC<ISwiftProps> = (props: ISwiftProps): JSX.Element => {
         wsEvent.emit('wsSwiftTx', id)
     }
 
+    const ws_shape_update = (data) => {
+        let id=data[0];
+        let data_one=data[1];
+        console.log(data_one);
+        
+        const newShapeDesc = [...shapeDesc];
+        console.log(newShapeDesc[id]);
+
+        newShapeDesc[id] = [data_one];
+        setShapeDesc(newShapeDesc);
+        wsEvent.emit('wsSwiftTx', data[0])
+    }
+
     const ws_remove = (data) => {
         const newShapeDesc = [...shapeDesc]
         newShapeDesc[data] = []
@@ -302,6 +315,7 @@ const Swift: React.FC<ISwiftProps> = (props: ISwiftProps): JSX.Element => {
     }
 
     const ws_funcs = {
+        shape_update: ws_shape_update,
         shape_mounted: ws_shape_mounted,
         shape: ws_shape,
         remove: ws_remove,
